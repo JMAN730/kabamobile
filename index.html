@@ -157,14 +157,16 @@
   .hero-photo{
     position:relative;aspect-ratio:4/5;
     border-radius:10px;overflow:hidden;
-    background:
-      repeating-linear-gradient(45deg, #1d242a 0 18px, #1a2025 18px 36px);
+    background:#1d242a;
     border:1px solid var(--line);
   }
+  .hero-photo img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  }
   .hero-photo::before{
-    content:"PHOTO · mechanic working at a car";
+    content:"";
     position:absolute;inset:0;
-    display:grid;place-items:center;
+    display:none;
     font-family:var(--mono);font-size:12px;letter-spacing:.18em;
     color:rgba(244,241,234,.35);
     text-transform:uppercase;
@@ -527,6 +529,7 @@
       </div>
 
       <aside class="hero-photo">
+        <img src="mechanic-working-on-a-car.webp" alt="Mechanic working on a car">
         <span class="badge">● LIVE · 2 vans on route</span>
         <div class="ticker">
           <span>Now serving · <span class="amb">19147 / SOUTH PHILLY</span></span>
