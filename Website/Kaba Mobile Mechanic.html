@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaba Mobile Mechanic — Philadelphia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1417;
+    --ink-2:#171c21;
+    --ink-3:#222a31;
+    --line:#2a333b;
+    --cream:#f4f1ea;
+    --cream-2:#e8e3d6;
+    --amber:#f5a524;
+    --amber-deep:#d98a0b;
+    --rust:#c8341f;
+    --muted:#8a8275;
+    --display:'Anton', 'Archivo Black', Impact, sans-serif;
+    --body:'Manrope', system-ui, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--body);
+    background:var(--ink);
+    color:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  ::selection{background:var(--amber);color:var(--ink)}
+
+  /* ===== Layout helpers ===== */
+  .wrap{max-width:1400px;margin:0 auto;padding:0 32px}
+  @media (max-width:640px){ .wrap{padding:0 20px} }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--amber);
+  }
+  .eyebrow .dot{display:inline-block;width:6px;height:6px;background:var(--amber);border-radius:50%;margin-right:8px;transform:translateY(-2px)}
+
+  .display{
+    font-family:var(--display);
+    font-weight:400;
+    line-height:.86;
+    letter-spacing:-.01em;
+    text-transform:uppercase;
+  }
+
+  /* ===== Top bar ===== */
+  .topbar{
+    background:#000;
+    color:var(--cream-2);
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+  .topbar-row{display:flex;justify-content:space-between;align-items:center;height:34px}
+  .topbar-row span{display:inline-flex;align-items:center;gap:8px}
+  .topbar-row .pulse{width:7px;height:7px;background:#22d36a;border-radius:50%;box-shadow:0 0 0 0 rgba(34,211,106,.7);animation:pulse 2s infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,211,106,.7)}
+    70%{box-shadow:0 0 0 10px rgba(34,211,106,0)}
+    100%{box-shadow:0 0 0 0 rgba(34,211,106,0)}
+  }
+
+  /* ===== Nav ===== */
+  nav.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(15,20,23,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-mark{
+    width:44px;height:44px;border-radius:8px;
+    background:var(--amber);color:var(--ink);
+    display:grid;place-items:center;
+    font-family:var(--display);font-size:30px;line-height:1;
+    box-shadow:inset 0 -3px 0 rgba(0,0,0,.18);
+  }
+  .logo-text{display:flex;flex-direction:column;line-height:1}
+  .logo-text strong{font-family:var(--display);font-size:22px;letter-spacing:.01em;text-transform:uppercase}
+  .logo-text small{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+  .nav-links{display:flex;gap:32px;font-weight:600;font-size:14px;letter-spacing:.02em}
+  .nav-links a{position:relative;padding:8px 0;color:var(--cream-2)}
+  .nav-links a:hover{color:var(--amber)}
+  .nav-cta{display:flex;gap:12px;align-items:center}
+  @media (max-width:880px){ .nav-links{display:none} }
+
+  /* ===== Buttons ===== */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 22px;border-radius:6px;
+    font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;
+    transition:transform .12s ease, background .15s ease, color .15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn-amber{background:var(--amber);color:var(--ink)}
+  .btn-amber:hover{background:#ffb733}
+  .btn-ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+  .btn-cream{background:var(--cream);color:var(--ink)}
+  .btn-cream:hover{background:#fff}
+  .btn-lg{padding:18px 28px;font-size:15px}
+  .btn .arrow{transition:transform .2s ease}
+  .btn:hover .arrow{transform:translateX(3px)}
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;overflow:hidden;
+    padding:64px 0 80px;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
+  }
+  @media (max-width:1000px){ .hero-grid{grid-template-columns:1fr;gap:40px} }
+  .hero h1{
+    font-family:var(--display);
+    font-size:clamp(72px,11vw,176px);
+    line-height:.84;
+    letter-spacing:-.015em;
+    text-transform:uppercase;
+    margin:18px 0 0;
+  }
+  .hero h1 .amber{color:var(--amber)}
+  .hero h1 .stroke{
+    -webkit-text-stroke:2px var(--cream);
+    color:transparent;
+  }
+  .hero-sub{
+    margin:28px 0 0;
+    font-size:18px;line-height:1.55;max-width:520px;color:var(--cream-2);
+  }
+  .hero-ctas{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .hero-meta{
+    display:flex;gap:24px;margin-top:44px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  }
+  .hero-meta b{color:var(--cream);font-family:var(--display);font-size:26px;letter-spacing:.01em;display:block;margin-bottom:2px;font-weight:400}
+
+  /* Hero photo slot */
+  .hero-photo{
+    position:relative;aspect-ratio:4/5;
+    border-radius:10px;overflow:hidden;
+    background:
+      repeating-linear-gradient(45deg, #1d242a 0 18px, #1a2025 18px 36px);
+    border:1px solid var(--line);
+  }
+  .hero-photo::before{
+    content:"PHOTO · mechanic working at a car";
+    position:absolute;inset:0;
+    display:grid;place-items:center;
+    font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+    color:rgba(244,241,234,.35);
+    text-transform:uppercase;
+    text-align:center;padding:24px;
+  }
+  .hero-photo .badge{
+    position:absolute;left:20px;top:20px;
+    background:var(--amber);color:var(--ink);
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;font-weight:700;
+    padding:8px 12px;border-radius:4px;text-transform:uppercase;
+    z-index:2;
+  }
+  .hero-photo .ticker{
+    position:absolute;left:0;right:0;bottom:0;
+    background:#000;color:var(--cream);
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    padding:12px 16px;display:flex;justify-content:space-between;gap:16px;
+    border-top:1px solid var(--amber);
+    z-index:2;
+  }
+  .hero-photo .ticker .amb{color:var(--amber)}
+
+  /* Marquee strip */
+  .marquee{
+    background:var(--amber);color:var(--ink);
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+    overflow:hidden;
+  }
+  .marquee-track{
+    display:flex;gap:48px;align-items:center;
+    padding:18px 0;white-space:nowrap;
+    font-family:var(--display);font-size:28px;letter-spacing:.02em;text-transform:uppercase;
+    animation:scroll 40s linear infinite;
+  }
+  .marquee-track span{display:inline-flex;align-items:center;gap:48px}
+  .marquee-track .sep{display:inline-block;width:10px;height:10px;background:var(--ink);border-radius:50%}
+  @keyframes scroll{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+  }
+
+  /* ===== Section header ===== */
+  section.block{padding:120px 0;border-top:1px solid var(--line)}
+  @media (max-width:640px){ section.block{padding:80px 0} }
+  .section-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:56px;flex-wrap:wrap}
+  .section-head h2{
+    font-family:var(--display);
+    font-size:clamp(48px,7vw,96px);
+    line-height:.88;
+    letter-spacing:-.01em;
+    text-transform:uppercase;
+    margin:10px 0 0;
+    max-width:14ch;
+  }
+  .section-head h2 .amber{color:var(--amber)}
+  .section-head p{max-width:380px;color:var(--cream-2);font-size:16px;line-height:1.55;margin:0}
+  .num{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    color:var(--muted);text-transform:uppercase;
+  }
+
+  /* ===== Services grid ===== */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+  @media (max-width:980px){ .services{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:620px){ .services{grid-template-columns:1fr} }
+  .svc{
+    background:var(--ink);
+    padding:36px 32px 32px;
+    display:flex;flex-direction:column;gap:18px;
+    position:relative;
+    transition:background .2s ease;
+    min-height:280px;
+  }
+  .svc:hover{background:var(--ink-2)}
+  .svc-num{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;
+  }
+  .svc h3{
+    font-family:var(--display);font-size:36px;line-height:.92;letter-spacing:.005em;text-transform:uppercase;
+    margin:0;font-weight:400;
+  }
+  .svc p{color:var(--cream-2);font-size:14px;line-height:1.55;margin:0;flex:1}
+  .svc-foot{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-top:8px;padding-top:18px;border-top:1px solid var(--line)}
+  .svc-price{font-family:var(--display);font-size:32px;letter-spacing:0;color:var(--amber);line-height:1}
+  .svc-price small{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--muted);display:block;margin-bottom:4px;text-transform:uppercase;font-weight:400}
+  .svc-book{
+    font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;
+    color:var(--cream);display:inline-flex;align-items:center;gap:6px;
+  }
+  .svc-book:hover{color:var(--amber)}
+  .svc-book .arr{transition:transform .2s ease}
+  .svc:hover .svc-book .arr{transform:translateX(3px)}
+
+  /* ===== Service area ===== */
+  .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  @media (max-width:900px){ .area-grid{grid-template-columns:1fr} }
+  .area-map{
+    aspect-ratio:5/4;background:#0a0e10;border:1px solid var(--line);border-radius:10px;
+    position:relative;overflow:hidden;
+  }
+  .area-map svg{width:100%;height:100%;display:block}
+  .area-pill{
+    position:absolute;
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--ink);color:var(--cream);
+    border:1px solid var(--amber);
+    padding:5px 9px;border-radius:3px;
+    pointer-events:none;
+  }
+  .area-pill.amb{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+  .area-zips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 12px;margin-top:32px}
+  .zip{
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--cream-2);
+    padding:9px 11px;border:1px solid var(--line);border-radius:4px;text-align:center;
+    transition:all .15s ease;
+  }
+  .zip:hover{border-color:var(--amber);color:var(--amber)}
+  .area-info p{color:var(--cream-2);font-size:16px;line-height:1.6;max-width:480px}
+  .area-info .stats{display:flex;gap:32px;margin-top:32px}
+  .area-info .stats div{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .area-info .stats b{font-family:var(--display);font-size:42px;color:var(--amber);display:block;font-weight:400;line-height:1;margin-bottom:6px}
+
+  /* ===== Reviews ===== */
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media (max-width:980px){ .reviews{grid-template-columns:1fr} }
+  .review{
+    background:var(--ink-2);border:1px solid var(--line);border-radius:10px;
+    padding:32px 28px;display:flex;flex-direction:column;gap:18px;
+  }
+  .stars{display:flex;gap:3px;color:var(--amber);font-size:18px;letter-spacing:1px}
+  .review blockquote{margin:0;font-size:18px;line-height:1.5;color:var(--cream)}
+  .review blockquote .pull{font-family:var(--display);color:var(--amber);font-size:22px;line-height:1;display:block;margin-bottom:8px}
+  .review-meta{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:18px;border-top:1px solid var(--line)}
+  .review-meta .av{width:38px;height:38px;border-radius:50%;background:var(--ink-3);display:grid;place-items:center;font-family:var(--display);font-size:18px;color:var(--cream)}
+  .review-meta strong{font-size:14px;font-weight:700}
+  .review-meta small{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-top:3px}
+
+  /* ===== FAQ ===== */
+  .faq{max-width:900px;margin:0 auto}
+  .qa{
+    border-top:1px solid var(--line);
+    padding:24px 0;
+  }
+  .qa:last-child{border-bottom:1px solid var(--line)}
+  .qa summary{
+    list-style:none;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;gap:24px;
+    font-family:var(--display);font-size:clamp(22px,2.4vw,30px);letter-spacing:.005em;text-transform:uppercase;
+  }
+  .qa summary::-webkit-details-marker{display:none}
+  .qa .plus{
+    width:36px;height:36px;border-radius:50%;border:1px solid var(--line);
+    display:grid;place-items:center;flex-shrink:0;
+    transition:all .2s ease;font-family:var(--mono);font-size:18px;
+  }
+  .qa[open] .plus{background:var(--amber);color:var(--ink);border-color:var(--amber);transform:rotate(45deg)}
+  .qa p{margin:18px 0 0;color:var(--cream-2);font-size:16px;line-height:1.6;max-width:780px}
+
+  /* ===== CTA band ===== */
+  .cta-band{
+    background:var(--amber);color:var(--ink);
+    padding:88px 0;
+    position:relative;overflow:hidden;
+  }
+  .cta-band .row{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
+  @media (max-width:780px){ .cta-band .row{grid-template-columns:1fr} }
+  .cta-band h2{
+    font-family:var(--display);font-size:clamp(48px,7vw,96px);line-height:.88;letter-spacing:-.01em;text-transform:uppercase;margin:0;
+  }
+  .cta-band .actions{display:flex;gap:14px;flex-wrap:wrap}
+  .cta-band .btn-ink{background:var(--ink);color:var(--cream)}
+  .cta-band .btn-ink:hover{background:#000}
+  .cta-band .btn-line{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+
+  /* ===== Footer ===== */
+  footer{background:#000;padding:64px 0 32px;border-top:1px solid var(--line)}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+  @media (max-width:780px){ .foot-grid{grid-template-columns:1fr 1fr} }
+  footer h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-size:14px}
+  footer ul a:hover{color:var(--amber)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  /* ===== Modal / Booking ===== */
+  .modal-back{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+    z-index:100;display:grid;place-items:center;padding:24px;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .modal-back.open{opacity:1;pointer-events:auto}
+  .modal{
+    background:var(--ink-2);border:1px solid var(--line);
+    border-radius:14px;max-width:720px;width:100%;max-height:92vh;overflow:hidden;
+    display:grid;grid-template-rows:auto auto 1fr auto;
+    transform:translateY(20px);transition:transform .25s ease;
+  }
+  .modal-back.open .modal{transform:translateY(0)}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid var(--line)}
+  .modal-head strong{font-family:var(--display);font-size:22px;letter-spacing:.005em;text-transform:uppercase}
+  .modal-head .close{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+  .modal-head .close:hover{background:var(--ink);border-color:var(--amber);color:var(--amber)}
+  .steps{display:flex;gap:0;padding:18px 28px;border-bottom:1px solid var(--line);background:var(--ink)}
+  .step{flex:1;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .step .n{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;color:var(--cream-2)}
+  .step.active .n{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+  .step.done .n{background:var(--ink-3);color:var(--amber);border-color:var(--amber)}
+  .step.active{color:var(--cream)}
+  .step.done{color:var(--cream-2)}
+  .modal-body{padding:32px 28px;overflow-y:auto}
+  .modal-body h3{font-family:var(--display);font-size:32px;letter-spacing:.005em;text-transform:uppercase;margin:0 0 6px;font-weight:400}
+  .modal-body .lead{color:var(--cream-2);font-size:14px;margin:0 0 22px}
+  .pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (max-width:560px){ .pick-grid{grid-template-columns:1fr} }
+  .pick{
+    border:1px solid var(--line);border-radius:8px;
+    padding:16px 18px;text-align:left;
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    transition:all .15s ease;
+  }
+  .pick:hover{border-color:var(--amber)}
+  .pick.sel{border-color:var(--amber);background:rgba(245,165,36,.08)}
+  .pick strong{font-family:var(--display);font-size:18px;letter-spacing:.005em;text-transform:uppercase;font-weight:400}
+  .pick small{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);display:block;margin-top:4px;text-transform:uppercase}
+  .pick .pp{font-family:var(--display);color:var(--amber);font-size:22px}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .field label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .field input, .field select{
+    background:var(--ink);color:var(--cream);border:1px solid var(--line);
+    padding:13px 14px;border-radius:6px;font:inherit;font-size:15px;
+    outline:none;transition:border-color .15s ease;
+  }
+  .field input:focus, .field select:focus{border-color:var(--amber)}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:18px}
+  .cal-day{
+    aspect-ratio:1;display:grid;place-items:center;
+    border:1px solid var(--line);border-radius:6px;
+    font-family:var(--mono);font-size:13px;color:var(--cream);
+    cursor:pointer;transition:all .12s ease;position:relative;
+  }
+  .cal-day:hover:not(.disabled){border-color:var(--amber);color:var(--amber)}
+  .cal-day.sel{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
+  .cal-day.disabled{color:var(--ink-3);cursor:not-allowed;border-color:transparent}
+  .cal-day.today::after{content:"";position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:currentColor}
+  .cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center}
+  .month-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .month-nav strong{font-family:var(--display);font-size:20px;letter-spacing:.005em;text-transform:uppercase}
+  .month-nav button{width:32px;height:32px;border-radius:6px;border:1px solid var(--line);display:grid;place-items:center}
+  .month-nav button:hover{border-color:var(--amber);color:var(--amber)}
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media (max-width:560px){ .slots{grid-template-columns:repeat(3,1fr)} }
+  .slot{
+    border:1px solid var(--line);border-radius:6px;padding:10px 4px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-align:center;color:var(--cream-2);
+    transition:all .12s ease;
+  }
+  .slot:hover{border-color:var(--amber);color:var(--amber)}
+  .slot.sel{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
+  .modal-foot{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-top:1px solid var(--line);background:var(--ink)}
+  .summary-card{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:18px}
+  .summary-card .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .summary-card .row:last-child{border-bottom:0;font-family:var(--display);font-size:24px;letter-spacing:.005em;color:var(--amber);padding-top:14px}
+  .summary-card .row span:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .check-ok{
+    width:88px;height:88px;border-radius:50%;background:var(--amber);color:var(--ink);
+    display:grid;place-items:center;margin:0 auto 22px;font-size:42px;
+  }
+  .modal-body.center{text-align:center}
+
+  /* Phone reveal */
+  .phone-pop{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.95);
+    background:var(--ink-2);border:1px solid var(--amber);border-radius:14px;
+    padding:32px 36px;z-index:200;text-align:center;
+    opacity:0;pointer-events:none;transition:all .2s ease;
+  }
+  .phone-pop.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .phone-pop small{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px}
+  .phone-pop strong{font-family:var(--display);font-size:48px;letter-spacing:.01em;color:var(--amber);display:block}
+  .phone-pop .actions{display:flex;gap:10px;margin-top:18px;justify-content:center}
+
+  /* === Theme variants applied via [data-theme] === */
+  body[data-accent="amber"]{--amber:#f5a524;--amber-deep:#d98a0b}
+  body[data-accent="rust"]{--amber:#e35d3d;--amber-deep:#b8421f}
+  body[data-accent="lime"]{--amber:#c4e538;--amber-deep:#9bbf1f}
+  body[data-accent="cyan"]{--amber:#3dd1d9;--amber-deep:#1e9aa1}
+
+  body[data-bg="graphite"]{--ink:#0f1417;--ink-2:#171c21;--ink-3:#222a31;--line:#2a333b}
+  body[data-bg="midnight"]{--ink:#0a0e1a;--ink-2:#121829;--ink-3:#1c2438;--line:#2a334a}
+  body[data-bg="cream"]{--ink:#f4f1ea;--ink-2:#ebe6d8;--ink-3:#ddd6c2;--line:#cfc5ab;--cream:#0f1417;--cream-2:#222a31;--muted:#7a7263}
+
+  body[data-display="anton"]{--display:'Anton','Archivo Black',Impact,sans-serif}
+  body[data-display="archivo"]{--display:'Archivo Black','Anton',Impact,sans-serif}
+  body[data-display="oswald"]{--display:'Oswald','Anton',sans-serif}
+
+  /* sections toggle */
+  body[data-hide-area="true"] #area{display:none}
+  body[data-hide-reviews="true"] #reviews{display:none}
+  body[data-hide-faq="true"] #faq{display:none}
+</style>
+</head>
+<body data-accent="amber" data-bg="graphite" data-display="anton">
+
+<!-- ===== Top bar ===== -->
+<div class="topbar">
+  <div class="wrap topbar-row">
+    <span><span class="pulse"></span> Open · Mobile service today 7am–7pm</span>
+    <span>Philadelphia · ASE Certified · Insured</span>
+  </div>
+</div>
+
+<!-- ===== Nav ===== -->
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="#" class="logo">
+      <span class="logo-mark">K</span>
+      <span class="logo-text"><strong>Kaba</strong><small>Mobile Mechanic · PHL</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#area">Service area</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost" id="call-btn-nav" data-screen-label="Call CTA">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call
+      </a>
+      <button class="btn btn-amber" data-book>Book service <span class="arrow">→</span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<header class="hero" data-screen-label="Hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="eyebrow"><span class="dot"></span>Mobile mechanic · Greater Philadelphia</div>
+        <h1>
+          Your<br>
+          <span class="amber">Driveway</span><br>
+          <span class="stroke">Is The</span><br>
+          Shop.
+        </h1>
+        <p class="hero-sub">Honest, ASE-certified repairs at your home, office, or on the side of the road. Save the tow. Save the wait. We bring the garage to you — usually same-day.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-amber btn-lg" data-book>Book a service <span class="arrow">→</span></button>
+          <button class="btn btn-ghost btn-lg" id="call-btn-hero">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (215) 555-KABA
+          </button>
+        </div>
+        <div class="hero-meta">
+          <div><b>4.9★</b>From 380+ reviews</div>
+          <div><b>12yrs</b>ASE certified</div>
+          <div><b>60min</b>Avg response time</div>
+        </div>
+      </div>
+
+      <aside class="hero-photo">
+        <span class="badge">● LIVE · 2 vans on route</span>
+        <div class="ticker">
+          <span>Now serving · <span class="amb">19147 / SOUTH PHILLY</span></span>
+          <span>ETA · <span class="amb">42 min</span></span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Marquee ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Brakes <i class="sep"></i> Oil &amp; fluids <i class="sep"></i> Diagnostics <i class="sep"></i> Batteries <i class="sep"></i> Starters <i class="sep"></i> AC service <i class="sep"></i> Tune-ups <i class="sep"></i> Tires <i class="sep"></i> Pre-purchase inspections <i class="sep"></i></span>
+    <span>Brakes <i class="sep"></i> Oil &amp; fluids <i class="sep"></i> Diagnostics <i class="sep"></i> Batteries <i class="sep"></i> Starters <i class="sep"></i> AC service <i class="sep"></i> Tune-ups <i class="sep"></i> Tires <i class="sep"></i> Pre-purchase inspections <i class="sep"></i></span>
+  </div>
+</div>
+
+<!-- ===== Services ===== -->
+<section class="block" id="services" data-screen-label="Services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="num">01 / Services</div>
+        <h2>What we <span class="amber">fix</span> on your block.</h2>
+      </div>
+      <p>Flat-rate pricing for common jobs. Diagnostic-based jobs get a written quote before any wrench turns. Parts warranty included on every repair.</p>
+    </div>
+
+    <div class="services" id="services-grid">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== Service area ===== -->
+<section class="block" id="area" data-screen-label="Service Area" style="background:var(--ink-2)">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="num">02 / Service area</div>
+        <h2>We roll all over <span class="amber">Philly</span>.</h2>
+      </div>
+      <p>Center City, South Philly, Fishtown, West Philly, Mt. Airy, the Northeast — plus a 12-mile radius into the suburbs. Don't see your zip? Call us. We've probably got a van nearby.</p>
+    </div>
+
+    <div class="area-grid">
+      <div class="area-map">
+        <svg viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice">
+          <!-- grid background -->
+          <defs>
+            <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a2025" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="500" height="400" fill="url(#g)"/>
+          <!-- river - schuylkill curve -->
+          <path d="M 80 0 C 100 80, 140 140, 130 220 S 100 340, 90 400" stroke="#1a2530" stroke-width="22" fill="none" opacity=".8"/>
+          <!-- delaware -->
+          <path d="M 460 0 C 440 100, 420 200, 430 300 S 450 380, 460 400" stroke="#1a2530" stroke-width="28" fill="none" opacity=".8"/>
+          <!-- streets -->
+          <line x1="0" y1="180" x2="500" y2="180" stroke="#222a31" stroke-width="1.5"/>
+          <line x1="0" y1="220" x2="500" y2="220" stroke="#222a31" stroke-width="1.5"/>
+          <line x1="0" y1="260" x2="500" y2="260" stroke="#222a31" stroke-width="1.5"/>
+          <line x1="260" y1="0" x2="260" y2="400" stroke="#222a31" stroke-width="1.5"/>
+          <line x1="320" y1="0" x2="320" y2="400" stroke="#222a31" stroke-width="1.5"/>
+          <!-- coverage area -->
+          <path d="M 140 80 Q 250 60 380 110 Q 440 200 400 320 Q 280 380 160 340 Q 100 240 140 80 Z"
+                fill="rgba(245,165,36,.12)" stroke="#f5a524" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <!-- pin dots -->
+          <circle cx="240" cy="180" r="5" fill="#f5a524"/>
+          <circle cx="240" cy="180" r="12" fill="none" stroke="#f5a524" stroke-width="1" opacity=".4"/>
+          <circle cx="240" cy="180" r="20" fill="none" stroke="#f5a524" stroke-width="1" opacity=".2"/>
+          <circle cx="180" cy="240" r="3" fill="#f4f1ea"/>
+          <circle cx="320" cy="140" r="3" fill="#f4f1ea"/>
+          <circle cx="280" cy="280" r="3" fill="#f4f1ea"/>
+          <circle cx="360" cy="220" r="3" fill="#f4f1ea"/>
+          <circle cx="200" cy="120" r="3" fill="#f4f1ea"/>
+          <circle cx="340" cy="300" r="3" fill="#f4f1ea"/>
+        </svg>
+        <span class="area-pill amb" style="left:38%;top:38%">HQ · Fairmount</span>
+        <span class="area-pill" style="left:60%;top:28%">19125 · Fishtown</span>
+        <span class="area-pill" style="left:30%;top:58%">19146 · S. Philly</span>
+        <span class="area-pill" style="left:64%;top:68%">19147</span>
+      </div>
+
+      <div class="area-info">
+        <p>Mobile service across every neighborhood in Philadelphia and a 12-mile radius into the burbs. No trip fee within city limits. Fleet accounts and apartment-building service available.</p>
+        <div class="area-zips">
+          <span class="zip">19102</span><span class="zip">19103</span><span class="zip">19104</span>
+          <span class="zip">19106</span><span class="zip">19107</span><span class="zip">19119</span>
+          <span class="zip">19121</span><span class="zip">19122</span><span class="zip">19123</span>
+          <span class="zip">19125</span><span class="zip">19130</span><span class="zip">19134</span>
+          <span class="zip">19143</span><span class="zip">19145</span><span class="zip">19146</span>
+          <span class="zip">19147</span><span class="zip">19148</span><span class="zip">19150</span>
+        </div>
+        <div class="stats">
+          <div><b>12mi</b>Free radius</div>
+          <div><b>2</b>Service vans</div>
+          <div><b>60min</b>Avg response</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Reviews ===== -->
+<section class="block" id="reviews" data-screen-label="Reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="num">03 / Reviews</div>
+        <h2>Neighbors who <span class="amber">stopped</span> driving to a shop.</h2>
+      </div>
+      <p>4.9 stars across 380+ verified reviews on Google, Yelp, and Nextdoor. Read a few. Then ride along.</p>
+    </div>
+
+    <div class="reviews">
+      <article class="review">
+        <div class="stars">★★★★★</div>
+        <blockquote><span class="pull">“</span>Showed up in my apartment lot in 40 minutes, replaced my battery and tested the alternator while I finished a meeting upstairs. No tow, no Uber, no lost half-day. This is how car repair should work.</blockquote>
+        <div class="review-meta">
+          <div class="av">D</div>
+          <div><strong>Danielle R.</strong><small>Fishtown · Honda Civic</small></div>
+        </div>
+      </article>
+      <article class="review">
+        <div class="stars">★★★★★</div>
+        <blockquote><span class="pull">“</span>Quoted me half what the dealer wanted on rear brakes. Brought the parts, did it in my driveway in South Philly, walked me through what was actually worn. Honest. I won't go to a shop again.</blockquote>
+        <div class="review-meta">
+          <div class="av">M</div>
+          <div><strong>Marcus T.</strong><small>Passyunk · Toyota Tacoma</small></div>
+        </div>
+      </article>
+      <article class="review">
+        <div class="stars">★★★★★</div>
+        <blockquote><span class="pull">“</span>Check engine light came on the morning of a long drive. Kaba was at my place by 9, scanned it, fixed the bad sensor, sent a written report. Was on the turnpike by lunch. Worth every penny.</blockquote>
+        <div class="review-meta">
+          <div class="av">A</div>
+          <div><strong>Aisha N.</strong><small>Mt. Airy · Subaru Outback</small></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="block" id="faq" data-screen-label="FAQ" style="background:var(--ink-2)">
+  <div class="wrap">
+    <div class="section-head" style="justify-content:center;text-align:center;flex-direction:column;align-items:center">
+      <div class="num">04 / FAQ</div>
+      <h2>Things you're probably <span class="amber">wondering</span>.</h2>
+    </div>
+
+    <div class="faq">
+      <details class="qa" open>
+        <summary>How does mobile mechanic service actually work? <span class="plus">+</span></summary>
+        <p>You book a service or call us. We confirm the job, give you a written quote, and roll out to your address with the right parts and tools. Most jobs are done in your driveway, parking lot, or workplace lot in 30–120 minutes. You don't have to be there the whole time — we keep you in the loop by text.</p>
+      </details>
+      <details class="qa">
+        <summary>What kinds of repairs can you do on-site? <span class="plus">+</span></summary>
+        <p>Most maintenance and a lot of repairs: oil &amp; fluids, brakes, batteries, alternators, starters, diagnostics, AC service, tune-ups, sensors, belts &amp; hoses, mount/balance tires, and pre-purchase inspections. Big stuff like transmission rebuilds or frame work needs a shop — we'll tell you straight up if your job is one of those, and recommend someone we trust.</p>
+      </details>
+      <details class="qa">
+        <summary>Is mobile pricing more expensive than a regular shop? <span class="plus">+</span></summary>
+        <p>Usually less. We don't have a building, lifts, or a service writer to pay for, so labor is cheaper. You see the same warranties and OEM-grade parts, and there's no diagnostic fee if you book the repair.</p>
+      </details>
+      <details class="qa">
+        <summary>What if my building / apartment doesn't allow it? <span class="plus">+</span></summary>
+        <p>Most don't mind a 1-hour service call. If yours does, meet us at any nearby street, lot, or garage that has 10 feet of clearance — we've worked in tighter. Many Philly customers meet us at a Wawa, Acme, or their office lot.</p>
+      </details>
+      <details class="qa">
+        <summary>Do you warranty your work? <span class="plus">+</span></summary>
+        <p>Yes — 12-month / 12,000-mile warranty on parts and labor for almost everything we install. Wear items (brake pads, tires, batteries) carry their manufacturer warranty, which we honor.</p>
+      </details>
+      <details class="qa">
+        <summary>What payment do you take? <span class="plus">+</span></summary>
+        <p>Card, cash, Apple Pay, Google Pay, Zelle, and Venmo. Payment is taken when the job is done and you're satisfied. Fleet and business accounts get net-30 invoicing.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA band ===== -->
+<section class="cta-band">
+  <div class="wrap row">
+    <h2>Ready when<br>you are.</h2>
+    <div class="actions">
+      <button class="btn btn-ink btn-lg" data-book>Book a service <span class="arrow">→</span></button>
+      <button class="btn btn-line btn-lg" id="call-btn-band">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (215) 555-KABA
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="logo" style="margin-bottom:18px">
+        <span class="logo-mark">K</span>
+        <span class="logo-text"><strong>Kaba</strong><small>Mobile Mechanic · PHL</small></span>
+      </div>
+      <p style="color:var(--muted);max-width:300px;font-size:14px;line-height:1.55">Honest mobile auto repair across Philadelphia. ASE certified, fully insured, family run since 2014.</p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Oil &amp; fluids</a></li>
+        <li><a href="#services">Brakes</a></li>
+        <li><a href="#services">Diagnostics</a></li>
+        <li><a href="#services">Batteries</a></li>
+        <li><a href="#services">All services →</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#area">Service area</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#">Fleet accounts</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#" id="call-btn-foot">(215) 555-KABA</a></li>
+        <li><a href="mailto:fix@kabamobile.com">fix@kabamobile.com</a></li>
+        <li>Mon–Sat · 7am–7pm</li>
+        <li>1100 Frankford Ave<br>Philadelphia, PA 19125</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Kaba Mobile Mechanic LLC</span>
+    <span>Made in Philadelphia · License #PA-AR-19287</span>
+  </div>
+</footer>
+
+<!-- ===== Booking modal ===== -->
+<div class="modal-back" id="modal-back" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <strong id="modal-title">Book a service</strong>
+      <button class="close" data-close>✕</button>
+    </div>
+    <div class="steps" id="steps">
+      <div class="step active" data-s="1"><span class="n">1</span>Service</div>
+      <div class="step" data-s="2"><span class="n">2</span>Date</div>
+      <div class="step" data-s="3"><span class="n">3</span>Vehicle</div>
+      <div class="step" data-s="4"><span class="n">4</span>Contact</div>
+      <div class="step" data-s="5"><span class="n">5</span>Confirm</div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="back-btn" disabled>← Back</button>
+      <button class="btn btn-amber" id="next-btn">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Phone reveal -->
+<div class="phone-pop" id="phone-pop">
+  <small>Call us — usually answered in 2 rings</small>
+  <strong>(215) 555-KABA</strong>
+  <div class="actions">
+    <a class="btn btn-amber" href="tel:+12155555222">Call now →</a>
+    <button class="btn btn-ghost" id="phone-close">Close</button>
+  </div>
+</div>
+
+<!-- ===== Tweaks (loaded later) ===== -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="kaba-tweaks.jsx"></script>
+
+<script>
+/* =========================================================
+   Services data
+   ========================================================= */
+const SERVICES = [
+  {n:'01', title:'Oil & Fluids',   from:'$69',  unit:'/ change',  blurb:'Conventional, synthetic blend, or full synthetic. Filter included. Top-off all fluids and a 21-point safety check.'},
+  {n:'02', title:'Brakes',          from:'$185', unit:'/ axle',    blurb:'Pads + rotors replaced at your spot. OEM-grade parts, warrantied 12mo / 12k miles. We measure and quote before we cut anything.'},
+  {n:'03', title:'Batteries & Alt.',from:'$220', unit:'installed', blurb:'Test, replace, code, and verify charging system. Old battery hauled out for proper recycling. Same-day, almost always.'},
+  {n:'04', title:'Diagnostics',     from:'$95',  unit:'/ scan',    blurb:'Check-engine, ABS, airbag, transmission. OBD-II plus live data and component testing. Fee waived if you book the repair.'},
+  {n:'05', title:'Starters & Ignition', from:'$240', unit:'+ parts',blurb:'Click-click-nothing diagnosed and fixed on-site. Most cars back running in under 90 minutes.'},
+  {n:'06', title:'Tune-Ups',        from:'$160', unit:'starting',  blurb:'Spark plugs, coils, filters, throttle body — pick what you need. We bring an OEM-spec part for your year/make.'},
+  {n:'07', title:'Pre-Purchase Inspection', from:'$149', unit:'flat', blurb:'Buying used? We meet you at the seller, run a 120-point inspection + OBD scan, and send a written report in 24 hrs.'},
+  {n:'08', title:'AC Service',      from:'$129', unit:'+ refrig.', blurb:'R-134a or R-1234yf recharge with leak check and dye. Compressor/condenser quotes on the spot if needed.'},
+  {n:'09', title:'Tires · Mount/Bal.',from:'$35',  unit:'/ tire',   blurb:'You bring the tires, we bring the road-force balancer. Or we order them in your size and meet you with them.'},
+];
+
+const grid = document.getElementById('services-grid');
+SERVICES.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'svc';
+  el.innerHTML = `
+    <div class="svc-num">${s.n} / Service</div>
+    <h3>${s.title}</h3>
+    <p>${s.blurb}</p>
+    <div class="svc-foot">
+      <div class="svc-price"><small>From</small>${s.from} <span style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em">${s.unit}</span></div>
+      <button class="svc-book" data-book data-svc="${s.title}">Book <span class="arr">→</span></button>
+    </div>
+  `;
+  grid.appendChild(el);
+});
+
+/* =========================================================
+   Booking flow
+   ========================================================= */
+const state = {
+  step: 1,
+  service: null,
+  servicePrice: '',
+  date: null,
+  time: null,
+  monthOffset: 0,
+  year: '',
+  make: '',
+  model: '',
+  miles: '',
+  name: '',
+  phone: '',
+  address: '',
+  notes: '',
+};
+
+const backBtn = document.getElementById('back-btn');
+const nextBtn = document.getElementById('next-btn');
+const bodyEl  = document.getElementById('modal-body');
+const stepsEl = document.getElementById('steps');
+const modalBack = document.getElementById('modal-back');
+
+function openModal(preselect){
+  state.step = 1;
+  if (preselect) {
+    const found = SERVICES.find(s => s.title === preselect);
+    state.service = preselect;
+    state.servicePrice = found ? found.from : '';
+  }
+  modalBack.classList.add('open');
+  render();
+}
+function closeModal(){
+  modalBack.classList.remove('open');
+  setTimeout(()=> {
+    Object.assign(state, {step:1, service:null, servicePrice:'', date:null, time:null, year:'',make:'',model:'',miles:'',name:'',phone:'',address:'',notes:''});
+  }, 300);
+}
+
+document.querySelectorAll('[data-book]').forEach(b => {
+  b.addEventListener('click', () => openModal(b.dataset.svc));
+});
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeModal));
+modalBack.addEventListener('click', e => { if (e.target === modalBack) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); document.getElementById('phone-pop').classList.remove('open'); }
+});
+
+function setStep(n){
+  if (n < 1) n = 1;
+  if (n > 6) n = 6;
+  state.step = n;
+  render();
+}
+backBtn.addEventListener('click', () => setStep(state.step - 1));
+nextBtn.addEventListener('click', () => {
+  if (!canAdvance()) return;
+  if (state.step === 5) {
+    setStep(6); // success
+  } else {
+    setStep(state.step + 1);
+  }
+});
+
+function canAdvance(){
+  if (state.step === 1) return !!state.service;
+  if (state.step === 2) return !!state.date && !!state.time;
+  if (state.step === 3) return state.year && state.make && state.model;
+  if (state.step === 4) return state.name && state.phone && state.address;
+  return true;
+}
+
+function updateFoot(){
+  if (state.step === 6){
+    backBtn.style.display = 'none';
+    nextBtn.textContent = 'Close';
+    nextBtn.onclick = () => { closeModal(); nextBtn.onclick = null; };
+  } else {
+    backBtn.style.display = '';
+    backBtn.disabled = state.step === 1;
+    nextBtn.disabled = !canAdvance();
+    nextBtn.textContent = state.step === 5 ? 'Confirm booking →' : 'Continue →';
+    nextBtn.onclick = () => { if (!canAdvance()) return; setStep(state.step === 5 ? 6 : state.step + 1); };
+  }
+  // step indicators
+  [...stepsEl.children].forEach((el, i) => {
+    el.classList.remove('active','done');
+    const n = i+1;
+    if (state.step === 6 || n < state.step) el.classList.add('done');
+    else if (n === state.step) el.classList.add('active');
+  });
+}
+
+function render(){
+  if (state.step === 1) renderService();
+  else if (state.step === 2) renderDate();
+  else if (state.step === 3) renderVehicle();
+  else if (state.step === 4) renderContact();
+  else if (state.step === 5) renderConfirm();
+  else if (state.step === 6) renderDone();
+  updateFoot();
+}
+
+function renderService(){
+  bodyEl.classList.remove('center');
+  bodyEl.innerHTML = `
+    <h3>What needs work?</h3>
+    <p class="lead">Pick the closest match. You can add notes later.</p>
+    <div class="pick-grid">
+      ${SERVICES.map(s => `
+        <button class="pick ${state.service === s.title ? 'sel':''}" data-svc-pick="${s.title}" data-price="${s.from}">
+          <span><strong>${s.title}</strong><small>From ${s.from} ${s.unit}</small></span>
+          <span class="pp">${s.from}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  bodyEl.querySelectorAll('[data-svc-pick]').forEach(b => {
+    b.addEventListener('click', () => {
+      state.service = b.dataset.svcPick;
+      state.servicePrice = b.dataset.price;
+      render();
+    });
+  });
+}
+
+function renderDate(){
+  bodyEl.classList.remove('center');
+  // build calendar
+  const today = new Date();
+  const base = new Date(today.getFullYear(), today.getMonth() + state.monthOffset, 1);
+  const monthName = base.toLocaleString('en-US', {month:'long', year:'numeric'}).toUpperCase();
+  const startDow = base.getDay();
+  const daysInMonth = new Date(base.getFullYear(), base.getMonth()+1, 0).getDate();
+  const dayCells = [];
+  for (let i=0;i<startDow;i++) dayCells.push(`<div></div>`);
+  for (let d=1; d<=daysInMonth; d++){
+    const dt = new Date(base.getFullYear(), base.getMonth(), d);
+    const iso = dt.toISOString().slice(0,10);
+    const past = dt < new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const isSun = dt.getDay() === 0;
+    const disabled = past || isSun;
+    const isToday = iso === today.toISOString().slice(0,10);
+    const isSel = state.date === iso;
+    dayCells.push(`<div class="cal-day ${disabled?'disabled':''} ${isSel?'sel':''} ${isToday?'today':''}" data-day="${disabled?'':iso}">${d}</div>`);
+  }
+
+  const slots = ['7:00 AM','8:30 AM','10:00 AM','11:30 AM','1:00 PM','2:30 PM','4:00 PM','5:30 PM'];
+
+  bodyEl.innerHTML = `
+    <h3>When works for you?</h3>
+    <p class="lead">We confirm within an hour. Sundays we're closed (the vans deserve a day off).</p>
+    <div class="month-nav">
+      <button id="prev-month">←</button>
+      <strong>${monthName}</strong>
+      <button id="next-month">→</button>
+    </div>
+    <div class="cal-head">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div class="calendar">${dayCells.join('')}</div>
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px">Pick a time window</div>
+    <div class="slots">
+      ${slots.map(t => `<button class="slot ${state.time===t?'sel':''}" data-slot="${t}">${t}</button>`).join('')}
+    </div>
+  `;
+  bodyEl.querySelector('#prev-month').addEventListener('click', () => { if(state.monthOffset>0){state.monthOffset--; render();} });
+  bodyEl.querySelector('#next-month').addEventListener('click', () => { if(state.monthOffset<3){state.monthOffset++; render();} });
+  bodyEl.querySelectorAll('[data-day]').forEach(d => {
+    d.addEventListener('click', () => { if (d.dataset.day){ state.date = d.dataset.day; render(); } });
+  });
+  bodyEl.querySelectorAll('[data-slot]').forEach(s => {
+    s.addEventListener('click', () => { state.time = s.dataset.slot; render(); });
+  });
+}
+
+function renderVehicle(){
+  bodyEl.classList.remove('center');
+  bodyEl.innerHTML = `
+    <h3>Tell us about the car.</h3>
+    <p class="lead">Year, make, model — we'll bring the right parts.</p>
+    <div class="field-row">
+      <div class="field"><label>Year</label><input id="f-year" type="text" placeholder="2018" value="${state.year}"></div>
+      <div class="field"><label>Mileage (approx)</label><input id="f-miles" type="text" placeholder="85,000" value="${state.miles}"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Make</label>
+        <select id="f-make">
+          <option value="">Select…</option>
+          ${['Acura','Audi','BMW','Buick','Cadillac','Chevrolet','Chrysler','Dodge','Ford','GMC','Honda','Hyundai','Jeep','Kia','Lexus','Mazda','Mercedes-Benz','Nissan','Ram','Subaru','Toyota','Volkswagen','Volvo','Other'].map(m => `<option ${state.make===m?'selected':''}>${m}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field"><label>Model</label><input id="f-model" type="text" placeholder="Civic" value="${state.model}"></div>
+    </div>
+    <div class="field"><label>Anything else we should know? (optional)</label>
+      <input id="f-notes" type="text" placeholder="Pulling left when I brake, started last Tuesday" value="${state.notes}"></div>
+  `;
+  bodyEl.querySelector('#f-year').addEventListener('input', e => { state.year = e.target.value; updateFoot(); });
+  bodyEl.querySelector('#f-miles').addEventListener('input', e => { state.miles = e.target.value; });
+  bodyEl.querySelector('#f-make').addEventListener('change', e => { state.make = e.target.value; updateFoot(); });
+  bodyEl.querySelector('#f-model').addEventListener('input', e => { state.model = e.target.value; updateFoot(); });
+  bodyEl.querySelector('#f-notes').addEventListener('input', e => { state.notes = e.target.value; });
+}
+
+function renderContact(){
+  bodyEl.classList.remove('center');
+  bodyEl.innerHTML = `
+    <h3>Where should we meet you?</h3>
+    <p class="lead">We'll text the day before and call when we're ~15 minutes out.</p>
+    <div class="field-row">
+      <div class="field"><label>Your name</label><input id="f-name" type="text" placeholder="First &amp; last" value="${state.name}"></div>
+      <div class="field"><label>Mobile phone</label><input id="f-phone" type="tel" placeholder="(215) 555-0123" value="${state.phone}"></div>
+    </div>
+    <div class="field"><label>Service address (Philadelphia or 12mi)</label>
+      <input id="f-address" type="text" placeholder="123 N 2nd St, Philadelphia PA 19106" value="${state.address}"></div>
+    <div style="background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-top:6px">
+      <span style="color:var(--amber);font-size:22px">●</span>
+      <small style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cream-2);line-height:1.5">No charge to your card today. We'll confirm and send a written estimate before any work starts.</small>
+    </div>
+  `;
+  bodyEl.querySelector('#f-name').addEventListener('input', e => { state.name = e.target.value; updateFoot(); });
+  bodyEl.querySelector('#f-phone').addEventListener('input', e => { state.phone = e.target.value; updateFoot(); });
+  bodyEl.querySelector('#f-address').addEventListener('input', e => { state.address = e.target.value; updateFoot(); });
+}
+
+function renderConfirm(){
+  bodyEl.classList.remove('center');
+  const dt = state.date ? new Date(state.date + 'T12:00:00') : null;
+  const dateStr = dt ? dt.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'}) : '';
+  bodyEl.innerHTML = `
+    <h3>Look right?</h3>
+    <p class="lead">Confirm to lock it in. You'll get a text confirmation in under an hour.</p>
+    <div class="summary-card">
+      <div class="row"><span>Service</span><span>${state.service || '—'}</span></div>
+      <div class="row"><span>When</span><span>${dateStr} · ${state.time || ''}</span></div>
+      <div class="row"><span>Vehicle</span><span>${state.year} ${state.make} ${state.model}</span></div>
+      <div class="row"><span>Address</span><span style="text-align:right;max-width:60%">${state.address}</span></div>
+      <div class="row"><span>Contact</span><span>${state.name} · ${state.phone}</span></div>
+      <div class="row"><span>Estimate from</span><span>${state.servicePrice}</span></div>
+    </div>
+    <small style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:block;line-height:1.6">By confirming you agree to a written estimate before any work begins. Cancellation is free up to 2 hours before the appointment.</small>
+  `;
+}
+
+function renderDone(){
+  bodyEl.classList.add('center');
+  const dt = state.date ? new Date(state.date + 'T12:00:00') : null;
+  const dateStr = dt ? dt.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'}) : '';
+  bodyEl.innerHTML = `
+    <div class="check-ok">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h3 style="text-align:center">You're booked.</h3>
+    <p class="lead" style="text-align:center;margin-bottom:24px">${state.service} · ${dateStr} · ${state.time}<br>Confirmation #KMM-${Math.floor(10000+Math.random()*89999)} sent to ${state.phone}.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">
+      <a class="btn btn-amber" href="#">Add to calendar</a>
+      <button class="btn btn-ghost" id="call-after">Call us instead</button>
+    </div>
+    <small style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase">We'll text you when the van rolls out.</small>
+  `;
+  bodyEl.querySelector('#call-after').addEventListener('click', () => { closeModal(); document.getElementById('phone-pop').classList.add('open'); });
+}
+
+/* =========================================================
+   Phone popup
+   ========================================================= */
+const phonePop = document.getElementById('phone-pop');
+['call-btn-nav','call-btn-hero','call-btn-band','call-btn-foot'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', e => { e.preventDefault(); phonePop.classList.add('open'); });
+});
+document.getElementById('phone-close').addEventListener('click', () => phonePop.classList.remove('open'));
+
+</script>
+</body>
+</html>
